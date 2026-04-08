@@ -11,9 +11,16 @@ app.use(cors({ origin: "*", methods: ["GET", "POST", "PUT", "DELETE"], allowedHe
 app.use(express.json());
 
 /* ---------------- SWAGGER ---------------- */
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec)); 
 
-app.get("/", (req, res) => res.send("👤 Users API Running"));
+const userroute = require("./routes/userroute");
+app.use("/api/user", userroute);
+
+const categoriesroute = require("./routes/categoriesroute");
+app.use("/api/categories", categoriesroute);
+
+app.get("/", (req, res) => res.send("👤 Addresses API Running"));
 
 const PORT = process.env.PORT || 4001;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+
