@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const controller = require("../controller/usercontroller");
+const controller = require("../controllers/userController");
 
 /**
  * @swagger
@@ -18,7 +18,7 @@ const controller = require("../controller/usercontroller");
  *     requestBody:
  *       required: true
  *       content:
- *          application/json:
+ *         application/json:
  *           schema:
  *             type: object
  *             required:
