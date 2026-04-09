@@ -37,7 +37,7 @@ exports.updateUser = async (data) => {
   
   return repo.callUserSP({
     action: "UPDATE",
-    ...payload
+    ...updateData
   });
 };
 
