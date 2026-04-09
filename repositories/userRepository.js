@@ -4,7 +4,7 @@ exports.callUserSP = (params) => {
   return db.query(
     "CALL UserCRUD(?, ?, ?, ?, ?, ?, ?, ?, ?)",
     [
-      params.action,
+      params.action,    
       params.id || null,
       params.name || null,
       params.phone || null,
