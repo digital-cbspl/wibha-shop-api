@@ -13,11 +13,7 @@ app.use(express.json());
 /* ---------------- SWAGGER ---------------- */
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec)); 
 
-const userroute = require("./routes/userroute");
-app.use("/api/user", userroute);
 
-const categoriesroute = require("./routes/categoriesroute");
-app.use("/api/categories", categoriesroute);
 
 app.get("/", (req, res) => res.send("👤 Addresses API Running"));
 
