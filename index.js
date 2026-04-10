@@ -47,17 +47,11 @@ app.use("/api", wishlistRoute);
 const couponRoute = require("./routes/couponRoute");
 app.use("/api", couponRoute);
 
-const productImageRoute = require("./routes/productImageRoute");
-app.use("/api", productImageRoute);
+const reviewRoute = require("./routes/reviewRoute");
+app.use("/api", reviewRoute);
 
-const orderRoute = require("./routes/orderRoutes");
-app.use("/api", orderRoute);
-
-const orderItemsRoute = require("./routes/orderItemsRoute");
-app.use("/api", orderItemsRoute);
-
-const paymentRoute = require("./routes/paymentRoute");
-app.use("/api", paymentRoute);
+const addressRoute = require("./routes/addressRoute");
+app.use("/api", addressRoute);
 
 app.get("/", (req, res) => res.send("👤 Addresses API Running"));
 
