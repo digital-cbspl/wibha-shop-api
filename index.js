@@ -47,6 +47,12 @@ app.use("/api", wishlistRoute);
 const couponRoute = require("./routes/couponRoute");
 app.use("/api", couponRoute);
 
+const reviewRoute = require("./routes/reviewRoute");
+app.use("/api", reviewRoute);
+
+const addressRoute = require("./routes/addressRoute");
+app.use("/api", addressRoute);
+
 app.get("/", (req, res) => res.send("👤 Addresses API Running"));
 
 const PORT = process.env.PORT || 4001;
