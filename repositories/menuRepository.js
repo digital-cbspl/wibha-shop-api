@@ -2,13 +2,13 @@ const db = require("../config/db");
 
 exports.callMenuSP = (params) => {
   return db.query(
-    "CALL sp_menu_crud(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+    "CALL menu_crud(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
     [
       params.action,          // INSERT / UPDATE / DELETE / GET
       params.id || null,
       params.name || null,
       params.slug || null,
-      params.parent_id ?? null,
+      params.parent_id || null,
       params.type || null,
       params.url || null,
       params.sort_order ?? 0,
