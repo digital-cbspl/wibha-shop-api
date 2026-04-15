@@ -128,6 +128,7 @@ router.get("/menu/parent/:parent_id", controller.getMenuByParent);
  *           example:
  *             name: "Updated Menu"
  *             slug: "updated-menu"
+ *             parent_id: null
  *             type: "main"
  *             is_active: 1
  *             sort_order: 1
