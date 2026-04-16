@@ -24,6 +24,7 @@ const controller = require("../controllers/menuController");
  *             required:
  *               - name
  *               - type
+ *               - location
  *             properties:
  *               name:
  *                 type: string
@@ -31,6 +32,10 @@ const controller = require("../controllers/menuController");
  *               slug:
  *                 type: string
  *                 example: products
+ *               location:
+ *                 type: string
+ *                 enum: [header, footer]
+ *                 example: header
  *               parent_id:
  *                 type: integer
  *                 nullable: true
@@ -60,13 +65,33 @@ router.post("/menu", controller.createMenu);
  * @swagger
  * /api/menu:
  *   get:
- *     summary: Get all menus (Main + Submenu + Mega)
+ *     summary: Get all menus (Admin Full List)
  *     tags: [Menu]
  *     responses:
  *       200:
  *         description: List of menus
  */
 router.get("/menu", controller.getMenus);
+
+/**
+ * @swagger
+ * /api/menu/location/{location}:
+ *   get:
+ *     summary: Get menus by specific location (Header/Footer)
+ *     tags: [Menu]
+ *     parameters:
+ *       - in: path
+ *         name: location
+ *         required: true
+ *         schema:
+ *           type: string
+ *           enum: [header, footer]
+ *         example: footer
+ *     responses:
+ *       200:
+ *         description: List of menus filtered by location
+ */
+router.get("/menu/location/:location", controller.getMenuByLocation);
 
 /**
  * @swagger
@@ -125,13 +150,28 @@ router.get("/menu/parent/:parent_id", controller.getMenuByParent);
  *       required: true
  *       content:
  *         application/json:
- *           example:
- *             name: "Updated Menu"
- *             slug: "updated-menu"
- *             parent_id: null
- *             type: "main"
- *             is_active: 1
- *             sort_order: 1
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               slug:
+ *                 type: string
+ *               location:
+ *                 type: string
+ *                 enum: [header, footer]
+ *               parent_id:
+ *                 type: integer
+ *                 nullable: true
+ *               type:
+ *                 type: string
+ *                 enum: [main, submenu, mega]
+ *               url:
+ *                 type: string
+ *               is_active:
+ *                 type: integer
+ *               sort_order:
+ *                 type: integer
  *     responses:
  *       200:
  *         description: Menu updated successfully
