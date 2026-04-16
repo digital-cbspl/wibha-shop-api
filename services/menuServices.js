@@ -2,6 +2,7 @@ const repo = require("../repositories/menuRepository");
 
 // 👉 CREATE
 exports.createMenu = async (data) => {
+  // Ensure the keys in 'data' match: name, slug, location, parent_id, type, url, etc.
   return repo.callMenuSP({
     action: "INSERT",
     ...data,
@@ -9,33 +10,41 @@ exports.createMenu = async (data) => {
   });
 };
 
-// 👉 GET ALL (Full Menu)
+// 👉 GET ALL (Hierarchical / Full Menu)
 exports.getMenus = async () => {
-  const [rows] = await repo.callMenuSP({
+  const [result] = await repo.callMenuSP({
     action: "GET"
   });
+  // MySQL returns [ [rows], {metadata} ]. We want the rows.
+  return result[0]; 
+};
 
-  return rows[0];
+// 👉 GET BY LOCATION (Critical for Header vs Footer binding)
+exports.getMenuByLocation = async (location) => {
+  const [result] = await repo.callMenuSP({
+    action: "GET",
+    location: location // Pass 'header' or 'footer'
+  });
+  return result[0];
 };
 
 // 👉 GET BY ID
 exports.getMenuById = async (id) => {
-  const [rows] = await repo.callMenuSP({
+  const [result] = await repo.callMenuSP({
     action: "GET",
     id
   });
-
-  return rows[0][0];
+  // Return the single object from the first row of the first result set
+  return result[0] ? result[0][0] : null;
 };
 
-// 👉 GET BY PARENT (submenu / mega)
+// 👉 GET BY PARENT (For dynamic loading of submenus/mega menus)
 exports.getMenuByParent = async (parent_id) => {
-  const [rows] = await repo.callMenuSP({
+  const [result] = await repo.callMenuSP({
     action: "GET",
     parent_id
   });
-
-  return rows[0];
+  return result[0];
 };
 
 // 👉 UPDATE
