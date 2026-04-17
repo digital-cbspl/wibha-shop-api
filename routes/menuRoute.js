@@ -44,10 +44,10 @@ router.get("/menu", controller.getMenus);
  *               slug:
  *                 type: string
  *                 example: products
- *               location:
- *                 type: string
- *                 enum: [header, footer]
- *                 example: header
+ *               parent_id:
+ *                 type: integer
+ *                 nullable: true
+ *                 example: null
  *               type:
  *                 type: string
  *                 enum: [main, submenu, mega]
@@ -69,9 +69,9 @@ router.post("/menu", controller.createMenu);
 
 /**
  * @swagger
- * /api/menu/reorder:
- *   put:
- *     summary: Update sort order of multiple menu items
+ * /api/menu:
+ *   get:
+ *     summary: Get all menus (Main + Submenu + Mega)
  *     tags: [Menu]
  *     requestBody:
  *       required: true
@@ -95,7 +95,7 @@ router.post("/menu", controller.createMenu);
  *       200:
  *         description: Menu sort order updated successfully
  */
-router.put("/menu/reorder", controller.reorderMenus);
+router.get("/menu", controller.getMenus);
 
 /**
  * @swagger
@@ -168,25 +168,13 @@ router.get("/menu/:id", controller.getMenuById);
  *       required: true
  *       content:
  *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               name:
- *                 type: string
- *               slug:
- *                 type: string
- *               location:
- *                 type: string
- *                 enum: [header, footer]
- *               type:
- *                 type: string
- *                 enum: [main, submenu, mega]
- *               url:
- *                 type: string
- *               sort_order:
- *                 type: integer
- *               is_active:
- *                 type: integer
+ *           example:
+ *             name: "Updated Menu"
+ *             slug: "updated-menu"
+ *             parent_id: null
+ *             type: "main"
+ *             is_active: 1
+ *             sort_order: 1
  *     responses:
  *       200:
  *         description: Menu updated successfully
