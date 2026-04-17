@@ -44,7 +44,8 @@ exports.getMenuByParent = async (parent_id) => {
     action: "GET",
     parent_id
   });
-  return result[0];
+
+  return rows[0];
 };
 // 👉 REORDER (New Function for Drag & Drop)
 exports.reorderMenus = async (items) => {
