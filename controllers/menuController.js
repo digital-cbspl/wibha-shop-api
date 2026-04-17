@@ -1,13 +1,14 @@
 const service = require("../services/menuServices");
 
-// CREATE
+// 👉 CREATE
 exports.createMenu = async (req, res) => {
   try {
-    const { name, type } = req.body;
+    const { name, type, location } = req.body; // Added location
 
-    if (!name || !type) {
+    // Validate required fields for the menu_crud SP
+    if (!name || !type || !location) {
       return res.status(400).json({
-        message: "Name and type are required"
+        message: "Name, type, and location are required"
       });
     }
 
@@ -19,7 +20,6 @@ exports.createMenu = async (req, res) => {
 
   } catch (error) {
     console.error(error);
-
     res.status(500).json({
       message: "Failed to create menu",
       error: error.message
@@ -27,22 +27,44 @@ exports.createMenu = async (req, res) => {
   }
 };
 
-// GET ALL
-exports.getMenus = async (req, res) => {
+// 👉 GET BY LOCATION (Critical for Header/Footer binding)
+exports.getMenuByLocation = async (req, res) => {
   try {
-    const menus = await service.getMenus();
+    const { location } = req.params; // e.g., /api/menu/location/footer
+    
+    if (!location) {
+      return res.status(400).json({ message: "Location is required" });
+    }
 
+    const menus = await service.getMenuByLocation(location);
     res.status(200).json(menus);
 
   } catch (error) {
     console.error(error);
+    res.status(500).json({
+      message: "Failed to fetch menus for this location",
+      error: error.message
+    });
+  }
+};
 
+// 👉 GET ALL (Updated for Admin Dashboard)
+exports.getMenus = async (req, res) => {
+  try {
+    const menus = await service.getMenus();
+    // This returns the result of the 'GET' action in your menu_crud SP
+    res.status(200).json(menus);
+
+  } catch (error) {
+    console.error(error);
     res.status(500).json({
       message: "Failed to fetch menus",
       error: error.message
     });
   }
 };
+
+// ... (Keep getMenuById, getMenuByParent, updateMenu, and deleteMenu as they were)
 
 // GET BY ID
 exports.getMenuById = async (req, res) => {
@@ -91,7 +113,31 @@ exports.getMenuByParent = async (req, res) => {
     });
   }
 };
+//  REORDER (New Method for Drag & Drop)
+exports.reorderMenus = async (req, res) => {
+  try {
+    const { items } = req.body; // Array of { id, sort_order }
 
+    if (!items || !Array.isArray(items)) {
+      return res.status(400).json({
+        message: "Invalid data format. 'items' must be an array."
+      });
+    }
+
+    await service.reorderMenus(items);
+
+    res.status(200).json({
+      message: "Menu sort order updated successfully"
+    });
+    
+  } catch (error) {
+    console.error("Controller Error (reorder):", error);
+    res.status(500).json({
+      message: "Failed to update sort order",
+      error: error.message
+    });
+  }
+};
 // UPDATE
 exports.updateMenu = async (req, res) => {
   try {
