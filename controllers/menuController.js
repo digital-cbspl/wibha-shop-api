@@ -113,7 +113,31 @@ exports.getMenuByParent = async (req, res) => {
     });
   }
 };
+//  REORDER (New Method for Drag & Drop)
+exports.reorderMenus = async (req, res) => {
+  try {
+    const { items } = req.body; // Array of { id, sort_order }
 
+    if (!items || !Array.isArray(items)) {
+      return res.status(400).json({
+        message: "Invalid data format. 'items' must be an array."
+      });
+    }
+
+    await service.reorderMenus(items);
+
+    res.status(200).json({
+      message: "Menu sort order updated successfully"
+    });
+    
+  } catch (error) {
+    console.error("Controller Error (reorder):", error);
+    res.status(500).json({
+      message: "Failed to update sort order",
+      error: error.message
+    });
+  }
+};
 // UPDATE
 exports.updateMenu = async (req, res) => {
   try {

@@ -19,3 +19,26 @@ exports.callMenuSP = (params) => {
     ]
   );
 };
+
+exports.reorderMenus = async (items) => {
+  const connection = await db.getConnection(); //
+  try {
+    await connection.beginTransaction(); // Start transaction
+
+    for (const item of items) {
+      // Call SP with the 'REORDER' action for each item
+      await connection.query(
+        "CALL menu_crud('REORDER', ?, NULL, NULL, NULL, NULL, NULL, NULL, ?, NULL, NULL)",
+        [item.id, item.sort_order]
+      );
+    }
+
+    await connection.commit(); // Save all changes
+    return { success: true };
+  } catch (error) {
+    await connection.rollback(); // Undo changes on failure
+    throw error; // Let the service/controller handle the error
+  } finally {
+    connection.release(); // Return connection back to the pool
+  }
+};

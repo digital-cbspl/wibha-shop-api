@@ -12,6 +12,18 @@ const controller = require("../controllers/menuController");
 /**
  * @swagger
  * /api/menu:
+ *   get:
+ *     summary: Get all menus (Admin Full List)
+ *     tags: [Menu]
+ *     responses:
+ *       200:
+ *         description: List of menus
+ */
+router.get("/menu", controller.getMenus);
+
+/**
+ * @swagger
+ * /api/menu:
  *   post:
  *     summary: Create a new menu
  *     tags: [Menu]
@@ -36,10 +48,6 @@ const controller = require("../controllers/menuController");
  *                 type: string
  *                 enum: [header, footer]
  *                 example: header
- *               parent_id:
- *                 type: integer
- *                 nullable: true
- *                 example: null
  *               type:
  *                 type: string
  *                 enum: [main, submenu, mega]
@@ -56,22 +64,38 @@ const controller = require("../controllers/menuController");
  *     responses:
  *       201:
  *         description: Menu created successfully
- *       400:
- *         description: Validation error
  */
 router.post("/menu", controller.createMenu);
 
 /**
  * @swagger
- * /api/menu:
- *   get:
- *     summary: Get all menus (Admin Full List)
+ * /api/menu/reorder:
+ *   put:
+ *     summary: Update sort order of multiple menu items
  *     tags: [Menu]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               items:
+ *                 type: array
+ *                 items:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: integer
+ *                       example: 1
+ *                     sort_order:
+ *                       type: integer
+ *                       example: 2
  *     responses:
  *       200:
- *         description: List of menus
+ *         description: Menu sort order updated successfully
  */
-router.get("/menu", controller.getMenus);
+router.put("/menu/reorder", controller.reorderMenus);
 
 /**
  * @swagger
@@ -86,33 +110,11 @@ router.get("/menu", controller.getMenus);
  *         schema:
  *           type: string
  *           enum: [header, footer]
- *         example: footer
  *     responses:
  *       200:
  *         description: List of menus filtered by location
  */
 router.get("/menu/location/:location", controller.getMenuByLocation);
-
-/**
- * @swagger
- * /api/menu/{id}:
- *   get:
- *     summary: Get menu by ID
- *     tags: [Menu]
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: integer
- *         example: 1
- *     responses:
- *       200:
- *         description: Menu data
- *       404:
- *         description: Menu not found
- */
-router.get("/menu/:id", controller.getMenuById);
 
 /**
  * @swagger
@@ -126,7 +128,6 @@ router.get("/menu/:id", controller.getMenuById);
  *         required: true
  *         schema:
  *           type: integer
- *         example: 1
  *     responses:
  *       200:
  *         description: Submenu / Mega menu list
@@ -136,8 +137,8 @@ router.get("/menu/parent/:parent_id", controller.getMenuByParent);
 /**
  * @swagger
  * /api/menu/{id}:
- *   put:
- *     summary: Update menu
+ *   get:
+ *     summary: Get menu by ID
  *     tags: [Menu]
  *     parameters:
  *       - in: path
@@ -145,7 +146,24 @@ router.get("/menu/parent/:parent_id", controller.getMenuByParent);
  *         required: true
  *         schema:
  *           type: integer
- *         example: 1
+ *     responses:
+ *       200:
+ *         description: Menu data
+ */
+router.get("/menu/:id", controller.getMenuById);
+
+/**
+ * @swagger
+ * /api/menu/{id}:
+ *   put:
+ *     summary: Update menu details
+ *     tags: [Menu]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
  *     requestBody:
  *       required: true
  *       content:
@@ -160,17 +178,14 @@ router.get("/menu/parent/:parent_id", controller.getMenuByParent);
  *               location:
  *                 type: string
  *                 enum: [header, footer]
- *               parent_id:
- *                 type: integer
- *                 nullable: true
  *               type:
  *                 type: string
  *                 enum: [main, submenu, mega]
  *               url:
  *                 type: string
- *               is_active:
- *                 type: integer
  *               sort_order:
+ *                 type: integer
+ *               is_active:
  *                 type: integer
  *     responses:
  *       200:
@@ -190,7 +205,6 @@ router.put("/menu/:id", controller.updateMenu);
  *         required: true
  *         schema:
  *           type: integer
- *         example: 1
  *     responses:
  *       200:
  *         description: Menu deleted successfully
