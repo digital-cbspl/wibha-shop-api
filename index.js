@@ -53,6 +53,9 @@ app.use("/api", reviewRoute);
 const addressRoute = require("./routes/addressRoute");
 app.use("/api", addressRoute);
 
+const authRoute = require("./routes/auth.routes");
+app.use("/api", authRoute);
+
 app.get("/", (req, res) => res.send("👤 Addresses API Running"));
 
 const PORT = process.env.PORT || 4001;
