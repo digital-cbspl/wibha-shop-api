@@ -95,7 +95,7 @@ router.post("/menu", controller.createMenu);
  *       200:
  *         description: Menu sort order updated successfully
  */
-router.get("/menu", controller.getMenus);
+router.put("/menu/reorder", controller.reorderMenus);
 
 /**
  * @swagger

@@ -34,7 +34,6 @@ app.use("/api", varietyRoute);
 const productRoute = require("./routes/productRoute");
 app.use("/api", productRoute);
 
-
 const menuRoute = require("./routes/menuRoute");
 app.use("/api", menuRoute);
 
@@ -52,6 +51,9 @@ app.use("/api", reviewRoute);
 
 const addressRoute = require("./routes/addressRoute");
 app.use("/api", addressRoute);
+
+const authRoute = require("./routes/auth.routes");
+app.use("/api", authRoute);
 
 app.get("/", (req, res) => res.send("👤 Addresses API Running"));
 

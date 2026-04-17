@@ -47,6 +47,15 @@ exports.getMenuByParent = async (parent_id) => {
 
   return rows[0];
 };
+// 👉 REORDER (New Function for Drag & Drop)
+exports.reorderMenus = async (items) => {
+  // Items should be an array of { id, sort_order }
+  if (!items || !Array.isArray(items)) {
+    throw new Error("Invalid items format for reordering");
+  }
+  
+  return repo.reorderMenus(items);
+};
 
 // 👉 UPDATE
 exports.updateMenu = async (data) => {
