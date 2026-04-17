@@ -34,7 +34,6 @@ app.use("/api", varietyRoute);
 const productRoute = require("./routes/productRoute");
 app.use("/api", productRoute);
 
-
 const menuRoute = require("./routes/menuRoute");
 app.use("/api", menuRoute);
 

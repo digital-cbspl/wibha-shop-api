@@ -2,7 +2,7 @@ const db = require("../config/db");
 
 exports.callSP = (params) => {
   return db.query(
-    "CALL ProductCRUD(?,?,?,?,?,?,?,?,?,?,?,?,?)",
+    "CALL ProductCRUD(?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
     [
       params.action,
       params.id || null,
@@ -13,10 +13,11 @@ exports.callSP = (params) => {
       params.material_id || null,
       params.variety_id || null,
       params.gender_id || null,
-      params.price || null,
+      params.min_price || null, 
+      params.max_price || null, 
       params.search || null,
       params.page || 1,
-      params.limit || 10
+      params.limit || 16     
     ]
   );
 };
