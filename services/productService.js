@@ -8,6 +8,7 @@ exports.create = async (data) => {
   return repo.callSP({
     action: "CREATE",
     ...data,
+    max_price: data.price, // ✅ Maps standard price to the SP's max_price parameter
     slug
   });
 };
@@ -39,11 +40,12 @@ exports.update = async (data) => {
 
   return repo.callSP({
     action: "UPDATE",
-    ...payload
+    ...payload,
+    max_price: payload.price || payload.max_price // ✅ Safely map the price
   });
 };
 
 // DELETE
 exports.delete = async (id) => {
   return repo.callSP({ action: "DELETE", id });
-};  
+};

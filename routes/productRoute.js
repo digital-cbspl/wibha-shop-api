@@ -6,7 +6,20 @@ const controller = require("../controllers/productController");
  * @swagger
  * tags:
  *   name: Products
+ *   description: Product management APIs
  */
+
+/**
+ * @swagger
+ * /api/products/price-range:
+ *   get:
+ *     summary: Get the absolute minimum and maximum price of all active products
+ *     tags: [Products]
+ *     responses:
+ *       200:
+ *         description: Object containing minPrice and maxPrice
+ */
+router.get("/products/price-range", controller.getPriceRange);
 
 /**
  * @swagger
@@ -20,11 +33,27 @@ const controller = require("../controllers/productController");
  *         schema:
  *           type: integer
  *       - in: query
+ *         name: product_type_id
+ *         schema:
+ *           type: integer
+ *       - in: query
+ *         name: material_id
+ *         schema:
+ *           type: integer
+ *       - in: query
+ *         name: variety_id
+ *         schema:
+ *           type: integer
+ *       - in: query
  *         name: gender_id
  *         schema:
  *           type: integer
  *       - in: query
- *         name: price
+ *         name: min_price
+ *         schema:
+ *           type: number
+ *       - in: query
+ *         name: max_price
  *         schema:
  *           type: number
  *       - in: query
@@ -40,7 +69,7 @@ const controller = require("../controllers/productController");
  *         name: limit
  *         schema:
  *           type: integer
- *         example: 10
+ *         example: 16
  *     responses:
  *       200:
  *         description: List of products
@@ -77,7 +106,7 @@ router.get("/products", controller.getAll);
  *               created_by:
  *                 type: integer
  *             example:
- *               name: "Example Product"
+ *               name: Example Product
  *               category_id: 1
  *               product_type_id: 1
  *               material_id: 1
@@ -149,7 +178,7 @@ router.get("/products/:id", controller.getById);
  *               updated_by:
  *                 type: integer
  *             example:
- *               name: "Example Product Update"
+ *               name: Example Product Update
  *               product_type_id: 1
  *               price: 59.99
  *               updated_by: 1
